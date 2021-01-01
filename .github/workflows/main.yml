@@ -11,7 +11,7 @@ jobs:
       - name: Checkout Tweet Old Posts
         uses: actions/checkout@v2
         with:
-          repository: daveabrock/TweetOldPosts  
+          repository: jguadagno/TweetOldPosts  
 
       - name: Install .NET 5
         uses: actions/setup-dotnet@v1
