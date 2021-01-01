@@ -16,12 +16,14 @@ namespace TweetOldPosts
             using var reader = XmlReader.Create(config["FeedUrl"]);
             var feed = SyndicationFeed.Load(reader);
 
-            var cutOffDate = new DateTime(2017, 02, 04);
+            var cutOffDate = new DateTime(2017, 01, 01);
 
             var randoPost = feed.Items.Where(p => p.PublishDate > cutOffDate &&
-                                             !p.Categories.Any(cat => cat.Name.Contains("dotnet-stacks")) &&
-                                             !p.Categories.Any(cat => cat.Name.Contains("personal")) &&
-                                             !p.Categories.Any(cat => cat.Name.Contains("what-i-am-reading")))
+                                             !p.Categories.Any(cat => cat.Name.Contains("books")) &&
+                                             !p.Categories.Any(cat => cat.Name.Contains("book-reviews")) &&
+                                             !p.Categories.Any(cat => cat.Name.Contains("news")) &&
+                                             !p.Categories.Any(cat => cat.Name.Contains("arizona-technology-news")) &&
+                                             !p.Categories.Any(cat => cat.Name.Contains("technology-news")))
                             .OrderBy(p => Guid.NewGuid())
                             .FirstOrDefault();
 
