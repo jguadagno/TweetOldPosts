@@ -20,7 +20,7 @@ jobs:
 
       - name: Run app
         env: 
-          FeedUrl: 'https://josephguadagno.net/feed.xml'
+          FeedUrl: 'https://www.josephguadagno.net/feed.xml'
           AccessToken: ${{ secrets.twitter_access_token }}
           AccessSecret: ${{ secrets.twitter_access_token_secret }}
           ConsumerKey: ${{ secrets.twitter_consumer_key }}
