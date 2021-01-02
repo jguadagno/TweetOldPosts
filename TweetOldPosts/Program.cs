@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
@@ -27,10 +29,12 @@ namespace TweetOldPosts
                             .OrderBy(p => Guid.NewGuid())
                             .FirstOrDefault();
 
+            var hashtags = HashTagList(randoPost.Categories);
+
             Console.WriteLine($"Good choice! Picking {randoPost.Title.Text}");
 
             var status =
-                $"From the archives ({randoPost.PublishDate.Date.ToShortDateString()}): \"{randoPost.Title.Text}.\" RTs and feedback are always appreciated! {randoPost.Links[0].Uri} #dotnet #csharp #dotnetcore";
+                $"ICYMI: ({randoPost.PublishDate.Date.ToShortDateString()}): \"{randoPost.Title.Text}.\" RTs and feedback are always appreciated! {randoPost.Links[0].Uri} {hashtags}";
 
             var consumerKey = config["ConsumerKey"];
             var consumerSecret = config["ConsumerSecret"];
@@ -47,6 +51,19 @@ namespace TweetOldPosts
             {
                 Console.WriteLine(ex.Message, ex);
             }
+        }
+
+        private static string HashTagList(Collection<SyndicationCategory> categories)
+        {
+            if (categories is null || categories.Count == 0)
+            {
+                return "#dotnet #csharp #dotnetcore";
+            }
+
+            var hashTagCategories = categories.Where(c => !c.Name.Contains("Articles"));
+
+            return hashTagCategories.Aggregate("", (current, category) => current + $" #{category.Name.Replace(" ", "-")}");
+
         }
     }
 }
