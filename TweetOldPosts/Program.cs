@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel.Syndication;
@@ -28,6 +27,12 @@ namespace TweetOldPosts
                                              !p.Categories.Any(cat => cat.Name.Contains("technology-news")))
                             .OrderBy(p => Guid.NewGuid())
                             .FirstOrDefault();
+
+            if (randoPost == null)
+            {
+                Console.WriteLine("Could not get a post. Exiting");
+                return;
+            }
 
             var hashtags = HashTagList(randoPost.Categories);
 
