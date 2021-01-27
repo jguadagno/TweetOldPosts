@@ -68,7 +68,7 @@ namespace TweetOldPosts
             var hashTagCategories = categories.Where(c => !c.Name.Contains("Articles"));
 
             return hashTagCategories.Aggregate("",
-                (current, category) => current + $" #{category.Name.Replace(" ", "-").Replace(".", "-")}");
+                (current, category) => current + $" #{category.Name.Replace(" ", "").Replace(".", "")}");
 
         }
     }
