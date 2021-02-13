@@ -19,27 +19,27 @@ namespace TweetOldPosts
 
             var cutOffDate = new DateTime(2017, 01, 01);
 
-            var randoPost = feed.Items.Where(p => p.PublishDate > cutOffDate &&
-                                             !p.Categories.Any(cat => cat.Name.Contains("books")) &&
-                                             !p.Categories.Any(cat => cat.Name.Contains("book-reviews")) &&
-                                             !p.Categories.Any(cat => cat.Name.Contains("news")) &&
-                                             !p.Categories.Any(cat => cat.Name.Contains("arizona-technology-news")) &&
-                                             !p.Categories.Any(cat => cat.Name.Contains("technology-news")))
+            var randomPost = feed.Items.Where(p => p.PublishDate > cutOffDate &&
+                                             !p.Categories.Any(cat => cat.Name.ToLower().Contains("books")) &&
+                                             !p.Categories.Any(cat => cat.Name.ToLower().Contains("book reviews")) &&
+                                             !p.Categories.Any(cat => cat.Name.ToLower().Contains("news")) &&
+                                             !p.Categories.Any(cat => cat.Name.ToLower().Contains("arizona technology news")) &&
+                                             !p.Categories.Any(cat => cat.Name.ToLower().Contains("technology news")))
                             .OrderBy(p => Guid.NewGuid())
                             .FirstOrDefault();
 
-            if (randoPost == null)
+            if (randomPost == null)
             {
                 Console.WriteLine("Could not get a post. Exiting");
                 return;
             }
 
-            var hashtags = HashTagList(randoPost.Categories);
+            var hashtags = HashTagList(randomPost.Categories);
 
-            Console.WriteLine($"Good choice! Picking {randoPost.Title.Text}");
+            Console.WriteLine($"Good choice! Picking {randomPost.Title.Text}");
 
             var status =
-                $"ICYMI: ({randoPost.PublishDate.Date.ToShortDateString()}): \"{randoPost.Title.Text}.\" RTs and feedback are always appreciated! {randoPost.Links[0].Uri} {hashtags}";
+                $"ICYMI: ({randomPost.PublishDate.Date.ToShortDateString()}): \"{randomPost.Title.Text}.\" RTs and feedback are always appreciated! {randomPost.Links[0].Uri} {hashtags}";
 
             var consumerKey = config["ConsumerKey"];
             var consumerSecret = config["ConsumerSecret"];
